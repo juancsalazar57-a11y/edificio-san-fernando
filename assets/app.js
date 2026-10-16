@@ -17,12 +17,13 @@
     });
   }
 
-  /* ---------- origen (utm_source / utm_campaign / f) ---------- */
+  /* ---------- origen (utm_source / utm_campaign / utm_content / f) ---------- */
   var qs = new URLSearchParams(location.search);
   function origen() {
     var parts = [];
     if (qs.get('utm_source')) parts.push('utm_source=' + qs.get('utm_source'));
     if (qs.get('utm_campaign')) parts.push('utm_campaign=' + qs.get('utm_campaign'));
+    if (qs.get('utm_content')) parts.push('utm_content=' + qs.get('utm_content'));
     if (qs.get('f')) parts.push('f=' + qs.get('f'));
     return (parts.join(' | ') || 'directo').slice(0, 200);
   }
