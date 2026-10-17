@@ -11,7 +11,7 @@ window.UPCFG = {
   pixel_id: "2694679924367626",
 
   // PDFs
-  memo_pdf: "assets/memo-inversion.pdf",
+  memo_pdf: "assets/presentacion-edificio.pdf",
   kit_pdf: "assets/kit-referidoras.pdf",
 
   // Google Form (fuente: landing/form-config.json, creado el 2026-10-16)

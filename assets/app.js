@@ -1,4 +1,4 @@
-/* Memo online: menú, formulario directo a Google Forms (no-cors) y pantallas posteriores. Sin dependencias. */
+/* Landing del edificio: menú, formulario directo a Google Forms (no-cors) y pantallas posteriores. Sin dependencias. */
 (function () {
   'use strict';
   var C = window.UPCFG || {};
@@ -124,23 +124,23 @@
     if (kind === 'c') {
       h.textContent = (nombre ? 'Listo, ' + nombre + '. ' : 'Listo. ') + 'El propietario te escribe hoy.';
       box.appendChild(h);
-      box.appendChild(el('p', null, 'Mientras tanto, revisa el memo con fotos y números.'));
+      box.appendChild(el('p', null, 'Mientras tanto, revisa la presentación del edificio, con fotos y números.'));
       var wa = waHref(r);
       if (wa) {
         var lw = link('Escríbele por WhatsApp', wa, 'btn', true);
         lw.addEventListener('click', function () { if (window.fbq) window.fbq('track', 'Contact', { content_name: 'whatsapp_propietario' }); });
         box.appendChild(lw);
       }
-      box.appendChild(link('Descarga el memo (PDF)', C.memo_pdf || 'assets/memo-inversion.pdf', wa ? 'btn line' : 'btn', true));
+      box.appendChild(link('Descarga la presentación (PDF)', C.memo_pdf || 'assets/presentacion-edificio.pdf', wa ? 'btn line' : 'btn', true));
     } else if (kind === 'r') {
       h.textContent = 'Gracias. Aquí está el kit para referidoras.';
       box.appendChild(h);
       box.appendChild(link('Descarga el kit (PDF)', C.kit_pdf || 'assets/kit-referidoras.pdf', 'btn', true));
     } else {
-      h.textContent = 'Gracias. Aquí está el memo.';
+      h.textContent = 'Gracias. Aquí está la presentación del edificio.';
       box.appendChild(h);
       box.appendChild(el('p', null, 'Te escribimos para agendar la visita.'));
-      box.appendChild(link('Descarga el memo (PDF)', C.memo_pdf || 'assets/memo-inversion.pdf', 'btn', true));
+      box.appendChild(link('Descarga la presentación (PDF)', C.memo_pdf || 'assets/presentacion-edificio.pdf', 'btn', true));
     }
     return box;
   }
