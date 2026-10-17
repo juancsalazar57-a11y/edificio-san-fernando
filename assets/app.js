@@ -28,6 +28,25 @@
     return (parts.join(' | ') || 'directo').slice(0, 200);
   }
 
+  /* ---------- botones al formulario y barra fija en celular ---------- */
+  var formBox = $('#formulario');
+  document.querySelectorAll('a[href="#formulario"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      if (!formBox) return;
+      e.preventDefault();
+      formBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      var n = $('#f-nombre');
+      if (n && window.matchMedia('(min-width: 981px)').matches) setTimeout(function () { n.focus({ preventScroll: true }); }, 450);
+    });
+  });
+  var barra = $('#barra-cta'), ctaHero = $('#cta-hero');
+  if (barra && ctaHero && formBox && 'IntersectionObserver' in window) {
+    var heroVisible = true, formVisible = false;
+    var upd = function () { barra.hidden = heroVisible || formVisible; };
+    new IntersectionObserver(function (es) { heroVisible = es[0].isIntersecting; upd(); }).observe(ctaHero);
+    new IntersectionObserver(function (es) { formVisible = es[0].isIntersecting; upd(); }, { threshold: 0.1 }).observe(formBox);
+  }
+
   var form = $('#form');
   if (!form) return;
   $('#f-origen').value = origen();
@@ -120,7 +139,7 @@
     } else {
       h.textContent = 'Gracias. Aquí está el memo.';
       box.appendChild(h);
-      box.appendChild(el('p', null, 'Te avisamos de la jornada de visitas del sábado 28 de noviembre.'));
+      box.appendChild(el('p', null, 'Te escribimos para agendar la visita.'));
       box.appendChild(link('Descarga el memo (PDF)', C.memo_pdf || 'assets/memo-inversion.pdf', 'btn', true));
     }
     return box;
