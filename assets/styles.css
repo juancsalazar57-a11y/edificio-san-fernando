@@ -254,3 +254,19 @@ section{scroll-margin-top:64px}
   .btn.cta,.btn.ghost,.btn.cta-sec{width:100%}
   .foot{padding-bottom:96px}
 }
+
+/* v3 (18-oct, feedback de Juan): la foto del hero muestra el edificio completo, del techo a la reja de la entrada */
+@media (min-width:1200px){
+  .hero{display:grid;grid-template-columns:330px 1fr;column-gap:36px;align-items:start}
+  .hero>*{grid-column:2}
+  .hero-foto{grid-column:1;grid-row:1 / span 6;margin:0}
+  .hero-foto img{aspect-ratio:5/6;object-position:50% 72%}
+  .hero h1{font-size:38px;line-height:46px;margin-top:0}
+  .kpis{grid-template-columns:1fr 1fr;row-gap:18px}
+}
+@media (max-width:1199px){
+  .hero-foto img{aspect-ratio:5/6;object-position:50% 72%}
+}
+@media (min-width:600px) and (max-width:1199px){
+  .hero-foto{max-width:420px;margin-left:auto;margin-right:auto}
+}
