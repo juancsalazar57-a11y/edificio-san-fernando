@@ -105,14 +105,26 @@
     if (ext) { a.target = '_blank'; a.rel = 'noopener'; }
     return a;
   }
-  function waHref(r) {
+  function waHref(r, kind) {
     var num = String(C.whatsapp_papa || '').replace(/\D/g, '');
     if (!num) return '';
     var msg = 'Hola, vi el edificio de San Fernando y quiero más información.';
-    if (r && COMPRA_FRASE[r.compra] && r.plazo) {
+    if (kind === 'r') {
+      msg = 'Hola, soy asesor inmobiliario y vi el edificio de San Fernando. Tengo clientes que podrían estar interesados.';
+    } else if (r && COMPRA_FRASE[r.compra] && r.plazo) {
       msg += ' Compraría ' + COMPRA_FRASE[r.compra] + ' ' + r.plazo.charAt(0).toLowerCase() + r.plazo.slice(1) + '.';
     }
     return 'https://wa.me/' + num + '?text=' + encodeURIComponent(msg);
+  }
+
+  /* WhatsApp al propietario para todos los que envían el formulario (Juan, 30-oct). Contact en el píxel al tocarlo */
+  function botonWa(box, r, kind) {
+    var wa = waHref(r, kind);
+    if (!wa) return '';
+    var lw = link('Escríbele por WhatsApp', wa, 'btn', true);
+    lw.addEventListener('click', function () { if (window.fbq) window.fbq('track', 'Contact', { content_name: 'whatsapp_propietario', content_category: kind }); });
+    box.appendChild(lw);
+    return wa;
   }
 
   function pantalla(kind, r) {
@@ -125,22 +137,20 @@
       h.textContent = (nombre ? 'Listo, ' + nombre + '. ' : 'Listo. ') + 'El propietario te escribe hoy.';
       box.appendChild(h);
       box.appendChild(el('p', null, 'Mientras tanto, revisa la presentación del edificio, con fotos y números.'));
-      var wa = waHref(r);
-      if (wa) {
-        var lw = link('Escríbele por WhatsApp', wa, 'btn', true);
-        lw.addEventListener('click', function () { if (window.fbq) window.fbq('track', 'Contact', { content_name: 'whatsapp_propietario' }); });
-        box.appendChild(lw);
-      }
+      var wa = botonWa(box, r, kind);
       box.appendChild(link('Descarga la presentación (PDF)', C.memo_pdf || 'assets/presentacion-edificio.pdf', wa ? 'btn line' : 'btn', true));
     } else if (kind === 'r') {
       h.textContent = 'Gracias. Aquí está el kit para referidoras.';
       box.appendChild(h);
-      box.appendChild(link('Descarga el kit (PDF)', C.kit_pdf || 'assets/kit-referidoras.pdf', 'btn', true));
+      box.appendChild(el('p', null, 'Escríbele al propietario por WhatsApp para registrar a tu cliente.'));
+      var war = botonWa(box, r, kind);
+      box.appendChild(link('Descarga el kit (PDF)', C.kit_pdf || 'assets/kit-referidoras.pdf', war ? 'btn line' : 'btn', true));
     } else {
       h.textContent = 'Gracias. Aquí está la presentación del edificio.';
       box.appendChild(h);
-      box.appendChild(el('p', null, 'Te escribimos para agendar la visita.'));
-      box.appendChild(link('Descarga la presentación (PDF)', C.memo_pdf || 'assets/presentacion-edificio.pdf', 'btn', true));
+      box.appendChild(el('p', null, 'Escríbele al propietario por WhatsApp para resolver tus dudas y agendar la visita.'));
+      var wae = botonWa(box, r, kind);
+      box.appendChild(link('Descarga la presentación (PDF)', C.memo_pdf || 'assets/presentacion-edificio.pdf', wae ? 'btn line' : 'btn', true));
     }
     return box;
   }
