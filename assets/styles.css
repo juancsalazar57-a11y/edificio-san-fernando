@@ -276,3 +276,7 @@ section{scroll-margin-top:64px}
 .hero .sello svg{flex:0 0 auto}
 .hero .sello{justify-self:start}
 @media (max-width:599px){ .hero .sello{display:flex;font-size:14px;line-height:20px;margin-bottom:20px} }
+
+/* QA 31-oct: botones de la pantalla de gracias crecen si el texto pasa a dos líneas; leyenda del mapa en texto real */
+.pant .btn{height:auto;min-height:42px;padding:11px 16px}
+.mapa-ley{font-size:14px;line-height:1.5;color:var(--muted,#5d6b80);margin-top:10px;text-align:center}

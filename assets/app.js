@@ -43,7 +43,8 @@
   if (barra && ctaHero && formBox && 'IntersectionObserver' in window) {
     var heroVisible = true, formVisible = false;
     var upd = function () { barra.hidden = heroVisible || formVisible; };
-    new IntersectionObserver(function (es) { heroVisible = es[0].isIntersecting; upd(); }).observe(ctaHero);
+    /* QA 31-oct: la barra solo aparece cuando el botón del hero ya quedó arriba (no tapa las cifras al cargar en celular) */
+    new IntersectionObserver(function (es) { heroVisible = es[0].isIntersecting || es[0].boundingClientRect.top > 0; upd(); }).observe(ctaHero);
     new IntersectionObserver(function (es) { formVisible = es[0].isIntersecting; upd(); }, { threshold: 0.1 }).observe(formBox);
   }
 
@@ -176,8 +177,13 @@
 
     var r = {};
     ['nombre', 'celular', 'correo', 'compra', 'plazo', 'perfil', 'origen'].forEach(function (k) {
-      r[k] = (form.elements[k].value || '').trim();
+      r[k] = (form.elements[k].value || '').trim().replace(/\s+/g, ' ');
     });
+    /* QA 31-oct: el nombre se valida sin espacios y el celular se guarda en 10 dígitos */
+    if (r.nombre.replace(/\s/g, '').length < 4) { showErr('Escribe tu nombre completo.'); form.elements.nombre.focus(); return; }
+    var cel = r.celular.replace(/\D/g, '');
+    if (cel.length === 12 && cel.indexOf('57') === 0) cel = cel.slice(2);
+    r.celular = cel;
     if (!F.action || !F.entries) {
       console.error('config.js: falta form.action o form.entries');
       showErr('No pudimos enviar tus datos. Inténtalo de nuevo en unos minutos.');
@@ -202,8 +208,8 @@
         if (window.fbq) {
           var evId = 'lead-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8);
           var cat = kind === 'c' ? 'calificado' : (kind === 'r' ? 'inmobiliaria' : 'explorando');
-          window.fbq('track', 'Lead', { content_name: 'memo_edificio_san_fernando', content_category: cat }, { eventID: evId });
-          if (kind === 'c') window.fbq('trackCustom', 'LeadCalificado', { content_name: 'memo_edificio_san_fernando' }, { eventID: evId + '-c' });
+          window.fbq('track', 'Lead', { content_name: 'presentacion_edificio', content_category: cat }, { eventID: evId });
+          if (kind === 'c') window.fbq('trackCustom', 'LeadCalificado', { content_name: 'presentacion_edificio' }, { eventID: evId + '-c' });
         }
         var pant = $('#fpant');
         pant.innerHTML = '';
