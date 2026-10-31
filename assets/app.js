@@ -134,7 +134,7 @@
     var h = el('h2');
     var nombre = r && r.nombre ? r.nombre.trim().split(/\s+/)[0] : '';
     if (kind === 'c') {
-      h.textContent = (nombre ? 'Listo, ' + nombre + '. ' : 'Listo. ') + 'El propietario te escribe hoy.';
+      h.textContent = 'Gracias por tu interés, te contactaremos lo más pronto posible.';  /* Juan, 31-oct */
       box.appendChild(h);
       box.appendChild(el('p', null, 'Mientras tanto, revisa la presentación del edificio, con fotos y números.'));
       var wa = botonWa(box, r, kind);

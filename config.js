@@ -3,7 +3,7 @@
    (sin botón de WhatsApp, y los textos usan "el propietario"). */
 window.UPCFG = {
   // Datos del propietario (Juan, 16-oct-2026)
-  whatsapp_papa: "573183648833",   // solo dígitos con indicativo, ej. 573001112233
+  whatsapp_papa: "573236660000",   // solo dígitos con indicativo, ej. 573001112233
   nombre_papa: "William Salazar",     // nombre completo del propietario y responsable de datos
   correo_venta: "wisama1@hotmail.com",    // correo de la venta (derechos de datos)
 
